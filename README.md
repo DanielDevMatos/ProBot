@@ -1,2 +1,2 @@
 # ProBot
-Bot para envio de currículos automáticos 
+Automatização de procuras por viagens e turismos.
