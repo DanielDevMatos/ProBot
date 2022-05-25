@@ -3,7 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 # Entrar no site de viagens
-driver = drive("https://www.tripadvisor.com.br/")
+driver = drive()
+driver.get('https://www.tripadvisor.com.br/')
 
 # Achar a barra de busca e digitar o destino Nova York
 driver.find_element(
