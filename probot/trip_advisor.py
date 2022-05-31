@@ -1,9 +1,13 @@
-from probot.navegador import drive
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
+servico = Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=servico)
 
 # Entrar no site de viagens
-driver = drive()
 driver.get('https://www.tripadvisor.com.br/')
 
 # Achar a barra de busca e digitar o destino Nova York
@@ -14,7 +18,7 @@ driver.find_element(
 # Sobre o Local
 resumo = driver.find_element(
     By.XPATH, '//*[@id="lithium-root"]/main/div[6]/div/div/div[2]/div'
-).get_attribute('textContent')
+).get_attribute('wholeText')
 
 # O que o local tem a oferecer
 driver.find_element(
@@ -24,25 +28,31 @@ driver.find_element(
 
 # Guia turistico mais vendido
 driver.find_element(
-    By.XPATH, '//*[@id="lithium-root"]/main/span/div/div[3]/div/div[2]/div[2]/span/div/div[1]/section[3]/div/div/span/div/div/div[2]/div/div[2]/div/ul/li[1]/span/span/div/a/div[2]/div[2]/div'
+    By.CLASS_NAME, 'bsLRU btBEK fUpii'
 ).click()
 
 sobre_escursao = driver.find_element(
-    By.XPATH, '//*[@id="tab-data-WebPresentation_PoiAboutWeb"]/div/div/span/div[2]/div[1]/div[1]/div/div[1]/div/span'
-).get_attribute('textContent')
+    By.XPATH, '//*[@id="tab-data-WebPresentation_PoiAboutWeb"]/div/div/span/div[2]/div[1]/div[1]/div/div[1]/div/span/text()'
+).get_attribute('wholeText')
 
 tragetoria = driver.find_element(
-    By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div[4]/div/span'
-).get_attribute('textContent')
+    By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div[4]/div/span/text()'
+).get_attribute('wholeText')
+
 
 with open('ProBot/viagnes.txt', 'w') as arquivo:
-    arquivo.writelines('Sobre Nova York')
-    arquivo.write('')
-    arquivo.write('')
+    arquivo.writelines('Sobre Nova York \n')
+    arquivo.write('\n')
+    arquivo.write('\n')
+
     arquivo.write(resumo)
-    arquivo.write('')
-    arquivo.write('')
+    arquivo.write('\n')
+    arquivo.write('\n')
+
+    arquivo.writelines('Escursão \n')
     arquivo.write(sobre_escursao)
-    arquivo.write('')
-    arquivo.write('')
+    arquivo.write('\n')
+    arquivo.write('\n')
+
+    arquivo.writelines('Como sera a tragetoria \n')
     arquivo.write(tragetoria)
